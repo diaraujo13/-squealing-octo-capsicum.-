@@ -12,6 +12,7 @@ import java.util.Scanner;
  *
  * @author aluno
  */
+
 public class Main {
     
         private static String  formula;
@@ -19,87 +20,13 @@ public class Main {
         private static String conectivos [] = {".", "+", ">", ":"};
 
 
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
-        /*
-            Leitura da fórmula e separação de todos os
-            símbolos proposicionais em um ArrayList<String>
-       */
-
-        simbolos = new ArrayList<String>(); // Receberá os símbolos proposicionais únicos
-       
-        Scanner reader = new Scanner(System.in);
-        formula = reader.nextLine();
-            
-        
-            for (int z = 0; z < formula.length(); z++){
-                if (Character.isLetter(formula.charAt(z)) ){
-
-                    String tmp = String.valueOf(formula.charAt(z));
-                    simbolos.add(tmp);
-                    
-                }
-            }
-        
-         
-        
-
-        
-        /* 
-          Geração dos símbolos de TRUE e FALSE
-       */
-       
-                    ArrayList<ArrayList<String>> lista_valores = new ArrayList<ArrayList<String>>();
-
-                    ArrayList<String> coluna_1 = new ArrayList<String>();
-                    ArrayList<String> coluna_2 = new ArrayList<String>();
-
-                    coluna_1.add("T");
-                    coluna_1.add("F");
-                    coluna_1.add("T");
-                    coluna_1.add("F");
-
-                    coluna_2.add("T");
-                    coluna_2.add("T");
-                    coluna_2.add("F");
-                    coluna_2.add("F");
-
-                    lista_valores.add(coluna_1);
-                    lista_valores.add(coluna_2);
-
-                    String tmp_formula;
-
-        /*
-            Substituição de todos os valores na fórmula pelos respectivos valores T ou F
-       */
-        for ( int i = 0 ; i < lista_valores.get(0).size(); i++){
-
-            tmp_formula = formula;
-            for (int k = 0; k < lista_valores.size(); k++){
-
-                System.out.print(lista_valores.get(k).get(i));
-
-                tmp_formula = tmp_formula.replace(simbolos.get(k) , lista_valores.get(k).get(i));
+        public static void main (String args[]){
 
 
-            }
+            String teste = "F.T";
 
-            
-            System.out.print(" -- "+ tmp_formula + " -- ");
-
-            // Calcular a fórmula
-            // Seu valor atual alterado
-            System.out.print  ( calcular (tmp_formula) + "\n" );
-            
+            System.out.println(" RESULTADO " + calcular(teste));
         }
-     
-    }
-
-
 
     /*
      *  Pegar uma fórmula e calcular seu valor
@@ -113,12 +40,12 @@ public class Main {
      */
     private static String calcular(String f){
 
-            System.out.println(" -- "+ f + " -- ");
 
+        int tamanho = f.length();
 
-        for (int i = 0; i < f.length(); i++){
+        String resultado = null;
 
-
+        for (int i = 0; i < tamanho; i++){
 
          String tmp_pre;
          String tmp_pos;
@@ -126,58 +53,55 @@ public class Main {
          int posterior = i+1;
          int anterior = i-1;
 
+         boolean isPosConectivo = f.charAt(anterior)=='.'  ? true : false ;
+
          String char_atual = String.valueOf(f.charAt(i));
 
+             
+         // calcular(char_atual);
            
 
-             for (int p = 0; p < conectivos.length ; p++){
-             
-                 
-
+            for (int p = 0; p < conectivos.length ; p++){
                     if (char_atual.equals(conectivos[p])){
-
                         // Pega o valor anterior e o valor posterior
                         // Ambos como objeto STRING
                         tmp_pre = calcular(String.valueOf(f.charAt(anterior)));
                         tmp_pos = calcular(String.valueOf(f.charAt(posterior)));
 
-
                     System.out.println( i + " - É CONECTIVO " + char_atual + "COM " + tmp_pre + " E " + tmp_pos);
 
                         //Aplicar, então, na fórmula correspondente ao respectivo conectivo
-                        return calcularConectivo(tmp_pre, tmp_pos, char_atual) ;
-
-
+                        resultado = calcularConectivo(tmp_pre, tmp_pos, char_atual) ;
 
                     }
+                    continue;
+              }
 
-
-
-                    else if (char_atual.equals("~")){
+           if (char_atual.equals("~")){
 
                         String negacao = calcular(String.valueOf(f.charAt(posterior)));
-                       
-                        return inverter_valor(negacao);
-                       
-                    }
 
+                      //  return inverter_valor(negacao);
+                        resultado =  String.valueOf(char_atual);
+            }
 
+            else if (Character.isLetter(f.charAt(i)) && caractere_anterior == ' ' )
+            {
+                System.out.println( i + " - É LETRA ");
+               // return String.valueOf(char_atual);
+              resultado = String.valueOf(char_atual);
+            }else{
+                    continue;
+               }
 
-
-                    else if (Character.isLetter(f.charAt(i)))
-                    {
-                        System.out.println( i + " - É LETRA ");
-                        return String.valueOf(char_atual);
-                    }
-
-             }
+                  
         
 
        
     } // END OF FOR LOOP
 
 
-        return "PQP";
+        return resultado;
 } // END METHOD <CALCULAR>
 
     /*
@@ -195,7 +119,14 @@ public class Main {
 
         if (conectivo.equals(".")){
 
-            return anterior.equals("T") && posterior.equals("T") ? "T" : "F";
+            System.out.println("ENTROU NO E " + anterior.equals("T") );
+
+            System.out.println("ENTROU NO E " + posterior.equals("T") );
+
+            String resultado = (anterior.equals("T") && posterior.equals("T")) ? "T" : "F";
+                 System.out.println(resultado);
+
+            return (anterior.equals("T") && posterior.equals("T")) ? "T" : "F";
 
 
         }else if (conectivo.equals("+")){
