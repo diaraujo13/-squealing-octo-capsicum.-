@@ -16,7 +16,7 @@ public class Main {
     
         private static String  formula;
         private static ArrayList<String> simbolos;
-        private static char conectivos [] = {'.','+','>',':'};
+        private static String conectivos [] = {".", "+", ">", ":"};
 
 
 
@@ -88,6 +88,7 @@ public class Main {
 
             }
 
+            
             System.out.print(" -- "+ tmp_formula + " -- ");
 
             // Calcular a fórmula
@@ -112,55 +113,80 @@ public class Main {
      */
     private static String calcular(String f){
 
+            System.out.println(" -- "+ f + " -- ");
+
 
         for (int i = 0; i < f.length(); i++){
 
+
+
+         String tmp_pre;
+         String tmp_pos;
+
+         int posterior = i+1;
+         int anterior = i-1;
+
+         String char_atual = String.valueOf(f.charAt(i));
+
+           
+
              for (int p = 0; p < conectivos.length ; p++){
              
-                 String tmp_pre;
-                 String tmp_pos;
+                 
 
-                 int posterior = i+1;
-                 int anterior = i-1;
-
-
-                    if (f.charAt(i) == conectivos[p]){
+                    if (char_atual.equals(conectivos[p])){
 
                         // Pega o valor anterior e o valor posterior
                         // Ambos como objeto STRING
                         tmp_pre = calcular(String.valueOf(f.charAt(anterior)));
                         tmp_pos = calcular(String.valueOf(f.charAt(posterior)));
 
-                        // Armazena o valor do conectivo
-                        String tmp_conectivo = String.valueOf(conectivos[p]);
+
+                    System.out.println( i + " - É CONECTIVO " + char_atual + "COM " + tmp_pre + " E " + tmp_pos);
 
                         //Aplicar, então, na fórmula correspondente ao respectivo conectivo
-                        return calcularConectivo(tmp_pre, tmp_pos, tmp_conectivo) ;
+                        return calcularConectivo(tmp_pre, tmp_pos, char_atual) ;
 
-                    } else if (f.charAt(i) == '~'){
+
+
+                    }
+
+
+
+                    else if (char_atual.equals("~")){
 
                         String negacao = calcular(String.valueOf(f.charAt(posterior)));
-                        
+                       
                         return inverter_valor(negacao);
                        
-                    } else if (Character.isLetter(f.charAt(i)))
+                    }
+
+
+
+
+                    else if (Character.isLetter(f.charAt(i)))
                     {
-                        return String.valueOf(f.charAt(i));
+                        System.out.println( i + " - É LETRA ");
+                        return String.valueOf(char_atual);
                     }
 
              }
-        }
+        
+
+       
+    } // END OF FOR LOOP
+
 
         return "PQP";
-    }
-
+} // END METHOD <CALCULAR>
 
     /*
 
         Operações básicas
 
     */
-    private static String inverter_valor (String valor){
+    private static String inverter_valor (String valor)
+    {
         return  valor.equals("T") ? "F" : "V";
     }
 
