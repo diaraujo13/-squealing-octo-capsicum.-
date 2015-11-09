@@ -1,0 +1,78 @@
+
+
+    public static void main(String[] args) {
+
+        /*
+            Leitura da fórmula e separação de todos os
+            símbolos proposicionais em um ArrayList<String>
+       */
+
+        simbolos = new ArrayList<String>(); // Receberá os símbolos proposicionais únicos
+
+        Scanner reader = new Scanner(System.in);
+        formula = reader.nextLine();
+
+
+            for (int z = 0; z < formula.length(); z++){
+                if (Character.isLetter(formula.charAt(z)) ){
+
+                    String tmp = String.valueOf(formula.charAt(z));
+                    simbolos.add(tmp);
+
+                }
+            }
+
+
+
+
+
+        /*
+          Geração dos símbolos de TRUE e FALSE
+       */
+
+                    ArrayList<ArrayList<String>> lista_valores = new ArrayList<ArrayList<String>>();
+
+                    ArrayList<String> coluna_1 = new ArrayList<String>();
+                    ArrayList<String> coluna_2 = new ArrayList<String>();
+
+                    coluna_1.add("T");
+                    coluna_1.add("F");
+                    coluna_1.add("T");
+                    coluna_1.add("F");
+
+                    coluna_2.add("T");
+                    coluna_2.add("T");
+                    coluna_2.add("F");
+                    coluna_2.add("F");
+
+                    lista_valores.add(coluna_1);
+                    lista_valores.add(coluna_2);
+
+                    String tmp_formula;
+
+        /*
+            Substituição de todos os valores na fórmula pelos respectivos valores T ou F
+       */
+        for ( int i = 0 ; i < lista_valores.get(0).size(); i++){
+
+            tmp_formula = formula;
+            for (int k = 0; k < lista_valores.size(); k++){
+
+                System.out.print(lista_valores.get(k).get(i));
+
+                tmp_formula = tmp_formula.replace(simbolos.get(k) , lista_valores.get(k).get(i));
+
+
+            }
+
+
+            System.out.print(" -- "+ tmp_formula + " -- ");
+
+            // Calcular a fórmula
+            // Seu valor atual alterado
+            System.out.print  ( calcular (tmp_formula) + "\n" );
+
+        }
+
+    }
+
