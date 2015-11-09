@@ -23,7 +23,7 @@ public class Main {
         public static void main (String args[]){
 
 
-            String teste = "F.T";
+            String teste = "F.F";
 
             System.out.println(" RESULTADO " + calcular(teste));
         }
@@ -53,8 +53,10 @@ public class Main {
          int posterior = i+1;
          int anterior = i-1;
 
-         boolean isPosConectivo = f.charAt(anterior)=='.'  ? true : false ;
-
+         boolean isPosConectivo = false ;
+         if (anterior > 0 ){
+            isPosConectivo = f.charAt(anterior)=='.'  ? true : false ;
+         }
          String char_atual = String.valueOf(f.charAt(i));
 
              
@@ -85,7 +87,7 @@ public class Main {
                         resultado =  String.valueOf(char_atual);
             }
 
-            else if (Character.isLetter(f.charAt(i)) && caractere_anterior == ' ' )
+            else if (Character.isLetter(f.charAt(i)) && !isPosConectivo )
             {
                 System.out.println( i + " - É LETRA ");
                // return String.valueOf(char_atual);
